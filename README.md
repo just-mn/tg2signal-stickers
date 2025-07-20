@@ -62,8 +62,7 @@
 
 1. Запустите Signal Desktop с флагом `--enable-dev-tools`:
 2. Откройте **Developer Tools** (обычно `Ctrl+Shift+I` или через меню).
-3. В правом верхнем углу поменяйте JS-контекст с “top” на **Electron Isolated Context**.
-4. Перейдите на вкладку **Console** и выполните:
+3. Перейдите на вкладку **Console**, в правом верхнем углу поменяйте JS-контекст с “top” на **Electron Isolated Context**. и выполните:
 
    - это будет ваш SIGNAL_USERNAME
      ```js
