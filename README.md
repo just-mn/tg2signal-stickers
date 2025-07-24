@@ -1,109 +1,119 @@
 # tg2signal-stickers
 
-> Миграция стикерпаков из Telegram в Signal, чтобы ваши любимые стикеры были с вами.
+> Migrate sticker packs from Telegram to Signal, so your favorite stickers are always with you.
 
-> ‼️ ВНИМАНИЕ: не используйте скрипт на основном аккаунте Telegram, так как есть риск блокировки или выхода со всех устройств. Лучше создайте другой аккаунт который не жалко в случае чего, он понадобится только на момент загрузки стикеров и не более.
+> ‼️ WARNING: Do **not** use this script with your main Telegram account — it may lead to account bans or being logged out from all devices. It's better to create a throwaway account just for the sticker migration process.
 
-> ❗ Анимированные стикеры не поддерживаются
+> ❗ Animated stickers are **not** supported.
 
-## 📖 Описание
+> 🇷🇺 [Read this README in Russian](./README_ru.md)
 
-Этот скрипт берёт указанный `short_name` набора стикеров из Telegram, скачивает все `.webp`-стикеры и заливает их в ваш Signal-аккаунт. Анимированные TGS-стикеры пока не поддерживаются.
+## 📖 Description
 
-## ⚙️ Требования
+This script takes the `short_name` of a Telegram sticker pack, downloads all the `.webp` stickers, and uploads them to your Signal account.
+Animated TGS stickers are not supported at this time.
 
-- Python ≥ 3.8
-- Активный Telegram-аккаунт
-- Установленный Signal Desktop
+## ⚙️ Requirements
 
-## 🚀 Установка
+* Python ≥ 3.8
+* An active Telegram account
+* Installed Signal Desktop
 
-1. Клонируем репозиторий:
+## 🚀 Installation
+
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/just-mn/tg2signal-stickers.git
    cd tg2signal-stickers
    ```
 
-2. Создаём виртуальное окружение и активируем его:
+2. Create and activate a virtual environment:
 
    ```bash
    python -m venv .venv
    ```
 
-   для bash/zsh
+   For bash/zsh:
 
    ```bash
    source .venv/bin/activate
    ```
 
-   для PowerShell
+   For PowerShell:
 
    ```powershell
    .\.venv\Scripts\activate
    ```
 
-3. Устанавливаем зависимости:
+3. Install the dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-## 🔑 Получение учётных данных
+## 🔑 Getting Credentials
 
 ### 1. Telegram
 
-1. Заходим на [https://my.telegram.org](https://my.telegram.org) → API Development → Create new application.
-2. Куда нибудь сохроняем **API ID** и **API HASH**.
+1. Go to [https://my.telegram.org](https://my.telegram.org) → API Development → Create new application
+2. Save your **API ID** and **API HASH** somewhere safe.
 
 ### 2. Signal
 
-Чтобы достать `SIGNAL_USERNAME` и `SIGNAL_PASSWORD`, придётся немного порыться в dev-tools Signal Desktop:
+To get your `SIGNAL_USERNAME` and `SIGNAL_PASSWORD`, you'll need to poke around in Signal Desktop's dev tools:
 
-1. Запустите Signal Desktop с флагом `--enable-dev-tools`:
-2. Откройте **Developer Tools** (обычно `Ctrl+Shift+I` или через меню).
-3. Перейдите на вкладку **Console**, в правом верхнем углу поменяйте JS-контекст с “top” на **Electron Isolated Context**. и выполните:
+1. Launch Signal Desktop with the `--enable-dev-tools` flag
 
-   - это будет ваш SIGNAL_USERNAME
+2. Open **Developer Tools** (usually `Ctrl+Shift+I` or via the menu)
+
+3. Go to the **Console** tab and in the top-right context dropdown, switch from "top" to **Electron Isolated Context**. Then run:
+
+   * Your `SIGNAL_USERNAME`:
+
      ```js
      window.reduxStore.getState().items.uuid_id;
      ```
-   - это будет ваш SIGNAL_PASSWORD
+
+   * Your `SIGNAL_PASSWORD`:
+
      ```js
      window.reduxStore.getState().items.password;
      ```
 
-5. Скопируйте оба значения и сохраните.
+4. Copy and save both values.
 
-## 🔧 Конфигурация
+## 🔧 Configuration
 
-Скрипт читает переменные окружения из файла `.env`. Переименуйте `.env.example` в `.env` и заполните его своими данными
+The script reads environment variables from a `.env` file.
+Rename `.env.example` to `.env` and fill in your credentials.
 
-## ▶️ Использование
+## ▶️ Usage
 
 ```bash
-# Перед запуском убедитесь, что все ENV переменные установлены!
+# Make sure all ENV variables are set before running!
 python main.py <short_name>
 ```
 
-Если не передали `short_name`, скрипт спросит его интерактивно:
+If you don’t pass `<short_name>`, the script will ask for it interactively:
 
 ```bash
 $ python main.py
 Enter short_name of the Telegram sticker pack: awesome_pack
 ```
 
-### Пример
+### Example
 
 ```bash
 python main.py funny_animals
 ```
 
-- Скрипт скачает все `.webp`-стикеры из набора `funny_animals`.
-- Игнорирует `.tgs`.
-- Соберёт и зальёт набор в Signal.
-- В конце выведет ссылку типа:
+* Downloads all `.webp` stickers from `funny_animals` pack
+* Ignores `.tgs` files
+* Builds the pack and uploads it to Signal
+* Outputs a link like:
+
   ```
   https://signal.art/addstickers/#pack_id=XYZ&pack_key=ABC
   ```
-- Все готово. Вы прекрасны ☀️
+* Done. You’re awesome ☀️
